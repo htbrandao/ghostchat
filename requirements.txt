@@ -4,3 +4,4 @@ bcrypt
 cryptography
 jinja2
 gunicorn
+websockets
