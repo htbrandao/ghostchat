@@ -25,6 +25,7 @@
             <button class="btn btn-primary" onclick="sendMsg()">Send</button>
         </div>
     </div>
+
     <script>
         let ws;
         const boardId = "{{ board_id }}";
@@ -64,6 +65,5 @@
             const data = await resp.json();
         }
     </script>
-
 </body>
 </html>
