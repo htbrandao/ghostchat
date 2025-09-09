@@ -7,7 +7,7 @@ from cryptography.hazmat.primitives.ciphers.aead import AESGCM
 import bcrypt
 
 boards = {}
-templates = Jinja2Templates(directory="app/templates")
+templates = Jinja2Templates(directory="ghostchat/app/templates")
 
 router = APIRouter()
 
