@@ -19,6 +19,11 @@ async def index(request: Request):
     return templates.TemplateResponse("index.html", {"request": request})
 
 
+@router.get("/boards")
+async def list_boards():
+    return [b.to_public() for b in boards.values()]
+
+
 @router.post("/boards")
 async def create_board(payload: dict = Body(...)):
     name = payload.get("name")
@@ -35,11 +40,6 @@ async def chat_page(board_id: str, request: Request):
     if board_id not in boards:
         raise HTTPException(status_code=404, detail="Board not found")
     return templates.TemplateResponse("chat.html", {"request": request, "board_id": board_id})
-
-
-@router.get("/boards")
-async def list_boards():
-    return [b.to_public() for b in boards.values()]
 
 
 @router.post("/boards/{board_id}/delete")
