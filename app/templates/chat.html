@@ -1,69 +1,71 @@
-<!doctype html>
-<html lang="en">
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Board Chat</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-</head>
-<body class="p-4">
-    <div class="container">
-        <h3 class="mb-3">
-            <a href="/"><button class="btn btn-secondary">Home</button></a> Chat
-        </h3>
-        <div class="col-6">
-            <div class="mb-3" id="pwdbox">
-                <label>Password</label>
-                <input type="password" id="pwd" class="form-control" placeholder="Enter board password">
-                <button class="btn btn-success mt-2" onclick="connectWS();hideTextBox()">Join Chat</button>
-                <button class="btn btn-danger mt-2" onclick="deleteChat();hideTextBox()">Delete Chat</button>
+{% extends "base.html" %}
+{% block content %}
+
+<div class="row justify-content-center">
+    <div class="col-md-8" id="pwdbox">
+        <label>Password</label>
+        <input type="password" id="pwd" class="form-control" placeholder="Enter board password">
+        <button class="btn btn-success mt-2" onclick="connectWS();hideTextBox()">Join Chat</button>
+        <button class="btn btn-danger mt-2" onclick="deleteChat();hideTextBox()">Delete Chat</button>
+    </div>
+    <div class="col-md-8">
+        <div class="card shadow-lg rounded-4">
+            <div class="card-header bg-primary text-white">
+                <h5 class="mb-0">{{ board_id }}</h5>
+            </div>
+            <div class="card-body">
+                <div id="chat" class="chat-box"></div>
+            </div>
+            <div class="card-footer">
+                <form id="chat-form" class="d-flex">
+                    <input type="text" id="msg" class="form-control me-2" placeholder="Type a message..." required>
+                    <button class="btn btn-primary" onclick="sendMsg()">Send</button>
+                </form>
             </div>
         </div>
-        <div id="chat" class="border rounded p-3 mb-3" style="height:300px; overflow:auto;"></div>
-        <div class="input-group">
-            <input type="text" id="msg" class="form-control" placeholder="Type message...">
-            <button class="btn btn-primary" onclick="sendMsg()">Send</button>
-        </div>
     </div>
+</div>
 
-    <script>
-        let ws;
-        const boardId = "{{ board_id }}";
-        function log(msg){
-            const div = document.getElementById('chat');
-            div.innerHTML += `<div>${msg}</div>`;
-            div.scrollTop = div.scrollHeight;
-        }
-        function connectWS(){
-            const pwd = encodeURIComponent(document.getElementById('pwd').value);
-            ws = new WebSocket(`${location.origin.replace('http','ws')}/ws/${boardId}?password=${pwd}`);
-            ws.onopen = ()=> log('<em>Connected</em>');
-            ws.onmessage = (e)=> {
-                const data = JSON.parse(e.data);
-                if(data.type==='history'){
-                    data.messages.forEach(m=>log(`${m.sender}: ${m.text}`));
-                } else if(data.type==='message'){
-                    log(`${data.sender}: ${data.text}`);
-                }
-            };
-            ws.onclose = ()=> log('<em>Disconnected</em>');
-        }
-        function sendMsg(){
-            const t = document.getElementById('msg').value;
-            if(ws && t){ ws.send(JSON.stringify({text: t})); document.getElementById('msg').value=''; }
-        }
-        function hideTextBox(event) {
-                const textBox = document.getElementById('pwdbox');
-            if (textBox) {
-                textBox.style.display = 'none';        
+{% endblock %}
+
+{% block scripts %}
+<script>
+    let ws;
+    const boardId = "{{ board_id }}";
+    function log(msg){
+        const div = document.getElementById('chat');
+        div.innerHTML += `<div>${msg}</div>`;
+        div.scrollTop = div.scrollHeight;
+    }
+    function connectWS(){
+        const pwd = encodeURIComponent(document.getElementById('pwd').value);
+        ws = new WebSocket(`${location.origin.replace('http','ws')}/ws/${boardId}?password=${pwd}`);
+        ws.onopen = ()=> log('<em>Connected</em>');
+        ws.onmessage = (e)=> {
+            const data = JSON.parse(e.data);
+            if(data.type==='history'){
+                data.messages.forEach(m=>log(`${m.sender}: ${m.text}`));
+            } else if(data.type==='message'){
+                log(`${data.sender}: ${data.text}`);
             }
+        };
+        ws.onclose = ()=> log('<em>Disconnected</em>');
+    }
+    function sendMsg(){
+        const t = document.getElementById('msg').value;
+        if(ws && t){ ws.send(JSON.stringify({text: t})); document.getElementById('msg').value=''; }
+    }
+    function hideTextBox(event) {
+            const textBox = document.getElementById('pwdbox');
+        if (textBox) {
+            textBox.style.display = 'none';        
         }
-        async function deleteChat(){
-            const pwd = document.getElementById('pwd').value;
-            const payload = { password: pwd };
-            const resp = await fetch('/boards/' + boardId + '/delete', {method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify(payload)});
-            const data = await resp.json();
-        }
-    </script>
-</body>
-</html>
+    }
+    async function deleteChat(){
+        const pwd = document.getElementById('pwd').value;
+        const payload = { password: pwd };
+        const resp = await fetch('/boards/' + boardId + '/delete', {method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify(payload)});
+        const data = await resp.json();
+    }
+</script>
+{% endblock %}
