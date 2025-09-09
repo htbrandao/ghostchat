@@ -15,9 +15,8 @@
             <div class="mb-3" id="pwdbox">
                 <label>Password</label>
                 <input type="password" id="pwd" class="form-control" placeholder="Enter board password">
-                <button class="btn btn-success mt-2" onclick="connectWS();hideTextBox()">
-                    Join Chat
-                </button>
+                <button class="btn btn-success mt-2" onclick="connectWS();hideTextBox()">Join Chat</button>
+                <button class="btn btn-danger mt-2" onclick="deleteChat();hideTextBox()">Delete Chat</button>
             </div>
         </div>
         <div id="chat" class="border rounded p-3 mb-3" style="height:300px; overflow:auto;"></div>
@@ -58,6 +57,13 @@
                 textBox.style.display = 'none';        
             }
         }
+        async function deleteChat(){
+            const pwd = document.getElementById('pwd').value;
+            const payload = { password: pwd };
+            const resp = await fetch('/boards/' + boardId + '/delete', {method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify(payload)});
+            const data = await resp.json();
+        }
     </script>
+
 </body>
 </html>
