@@ -3,15 +3,15 @@
 
 <div class="row justify-content-center">
     <div class="col-md-8" id="pwdbox">
-        <label>Password</label>
-        <input type="password" id="pwd" class="form-control" placeholder="Enter board password">
+        <input type="password" id="pwd" class="form-control" placeholder="Enter board password...">
         <button class="btn btn-success mt-2" onclick="connectWS();hideTextBox()">Join Chat</button>
         <button class="btn btn-danger mt-2" onclick="deleteChat();hideTextBox()">Delete Chat</button>
     </div>
+    <p></p>
     <div class="col-md-8">
         <div class="card shadow-lg rounded-4">
             <div class="card-header bg-primary text-white">
-                <h5 class="mb-0">{{ board_id }}</h5>
+                <h5 class="mb-0">Chat {{ board_id }}</h5>
             </div>
             <div class="card-body">
                 <div id="chat" class="chat-box"></div>
