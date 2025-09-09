@@ -5,3 +5,6 @@ cryptography
 jinja2
 gunicorn
 websockets
+flake8
+bandit
+pytest
