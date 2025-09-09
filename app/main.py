@@ -8,7 +8,7 @@ from .cleanup import cleanup_expired_boards
 
 app = FastAPI()
 app.include_router(router)
-app.mount("/static", StaticFiles(directory="ghostchat/app/static"), name="static")
+app.mount("/static", StaticFiles(directory="app/static"), name="static")
 
 app.add_api_websocket_route("/ws/{board_id}", websocket_endpoint)
 
