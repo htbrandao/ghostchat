@@ -11,6 +11,8 @@ from .routes import boards
 from .crypto import derive_kek
 from .models import EncryptedMessage
 
+MAX_BOARD_CONNECTIONS = 2
+
 
 async def websocket_endpoint(websocket: WebSocket, board_id: str):
     await websocket.accept()
@@ -27,7 +29,7 @@ async def websocket_endpoint(websocket: WebSocket, board_id: str):
         await websocket.close(code=1008)
         return
 
-    if len(board.connections) >= 2:
+    if len(board.connections) >= MAX_BOARD_CONNECTIONS:
         await websocket.send_json({"error": "board full"})
         await websocket.close(code=1008)
         return
