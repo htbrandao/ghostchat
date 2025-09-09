@@ -1,12 +1,14 @@
-from fastapi import APIRouter, Body, HTTPException, Request
+import bcrypt
+
 from fastapi.templating import Jinja2Templates
+from fastapi import APIRouter, Body, HTTPException, Request
+from cryptography.hazmat.primitives.ciphers.aead import AESGCM
 
 from .models import Board
 from .crypto import derive_kek
-from cryptography.hazmat.primitives.ciphers.aead import AESGCM
-import bcrypt
 
 boards = {}
+
 templates = Jinja2Templates(directory="app/templates")
 
 router = APIRouter()

@@ -1,14 +1,15 @@
+import uuid
 import json
 import secrets
-import uuid
-from datetime import datetime
+
 from fastapi import WebSocket
+from datetime import datetime
 from fastapi.websockets import WebSocketDisconnect
 from cryptography.hazmat.primitives.ciphers.aead import AESGCM
 
-from .models import EncryptedMessage
-from .crypto import derive_kek
 from .routes import boards
+from .crypto import derive_kek
+from .models import EncryptedMessage
 
 
 async def websocket_endpoint(websocket: WebSocket, board_id: str):

@@ -1,6 +1,7 @@
 import asyncio
-from datetime import datetime
+
 from .routes import boards
+from datetime import datetime
 
 
 async def cleanup_expired_boards():

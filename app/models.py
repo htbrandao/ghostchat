@@ -1,17 +1,19 @@
-import secrets
 import uuid
-from datetime import datetime, timedelta
-from typing import List, Dict
 import bcrypt
+import secrets
 
-from .crypto import derive_kek, generate_data_key, encrypt_with_kek
+from typing import List, Dict
+from datetime import datetime, timedelta
+
 from .crypto import DATA_KEY_LENGTH, NONCE_LENGTH, KDF_ITERS
+from .crypto import derive_kek, generate_data_key, encrypt_with_kek
 
 
 BOARD_LIFETIME = timedelta(hours=12)
 
 
 class EncryptedMessage:
+
     def __init__(self, ciphertext: bytes, nonce: bytes, ts: datetime, sender: str):
         self.ciphertext = ciphertext
         self.nonce = nonce
