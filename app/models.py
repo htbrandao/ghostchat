@@ -9,7 +9,7 @@ from .crypto import DATA_KEY_LENGTH, NONCE_LENGTH, KDF_ITERS
 from .crypto import derive_kek, generate_data_key, encrypt_with_kek
 
 
-BOARD_LIFETIME = timedelta(hours=12)
+BOARD_LIFETIME = timedelta(hours=1)  # changed to 1h
 
 
 class EncryptedMessage:

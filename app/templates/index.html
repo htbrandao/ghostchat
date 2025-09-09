@@ -1,37 +1,41 @@
 <!doctype html>
 <html lang="en">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Anon 2-Person Boards</title>
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>2-Person Chats</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body class="p-4">
-<div class="container">
-<h2 class="mb-4">Create a Board</h2>
-<form method="post" action="/boards" id="createForm">
-<div class="mb-3">
-<label class="form-label">Board Name</label>
-<input type="text" class="form-control" name="name">
-</div>
-<div class="mb-3">
-<label class="form-label">Password</label>
-<input type="password" class="form-control" name="password" required>
-</div>
-<button type="submit" class="btn btn-primary">Create</button>
-</form>
-</div>
-<script>
-document.getElementById('createForm').addEventListener('submit', async (e) => {
-e.preventDefault();
-const form = new FormData(e.target);
-const payload = { name: form.get('name'), password: form.get('password') };
-const resp = await fetch('/boards', {method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify(payload)});
-const data = await resp.json();
-if(data.id){
-window.location = `/boards/${data.id}`;
-}
-});
-</script>
+    <div class="container">
+        <h2 class="mb-4">Create a Chat</h2>
+
+        <form method="post" action="/boards" id="createForm">
+            <div class="col-6">
+                <div class="col-12">
+                    <label class="form-label">Chat Name</label>
+                    <input type="text" class="form-control" name="name">
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Password</label>
+                    <input type="password" class="form-control" name="password" required>
+                </div>
+                <button type="submit" class="btn btn-primary">Create</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('createForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const form = new FormData(e.target);
+            const payload = { name: form.get('name'), password: form.get('password') };
+            const resp = await fetch('/boards', {method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify(payload)});
+            const data = await resp.json();
+            if(data.id){
+                window.location = `/boards/${data.id}`;
+            }
+        });
+    </script>
 </body>
 </html>
