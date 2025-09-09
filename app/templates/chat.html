@@ -12,10 +12,12 @@
             <a href="/"><button class="btn btn-secondary">Home</button></a> Chat
         </h3>
         <div class="col-6">
-            <div class="mb-3">
+            <div class="mb-3" id="pwdbox">
                 <label>Password</label>
                 <input type="password" id="pwd" class="form-control" placeholder="Enter board password">
-                <button class="btn btn-success mt-2" onclick="connectWS()">Join Chat</button>
+                <button class="btn btn-success mt-2" onclick="connectWS();hideTextBox()">
+                    Join Chat
+                </button>
             </div>
         </div>
         <div id="chat" class="border rounded p-3 mb-3" style="height:300px; overflow:auto;"></div>
@@ -49,6 +51,12 @@
         function sendMsg(){
             const t = document.getElementById('msg').value;
             if(ws && t){ ws.send(JSON.stringify({text: t})); document.getElementById('msg').value=''; }
+        }
+        function hideTextBox(event) {
+                const textBox = document.getElementById('pwdbox');
+            if (textBox) {
+                textBox.style.display = 'none';        
+            }
         }
     </script>
 </body>
