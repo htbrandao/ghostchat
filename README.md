@@ -1,11 +1,14 @@
-Ghost Chat
+# Ghost Chat
+
+Instant and anonymous chat for 2 people.
 
 
-___
+<br><br>
 
-# TODO:
+# TODOs & FIXMEs:
 
-1- generate RSA pair on start-up
-2- cypher password on user
-3- send #2 through request
-4- crack #2 to auth
+0. align landing page
+1. generate RSA pair on start-up
+2. cypher password on user
+3. send #2 through request
+4. crack #2 to auth
